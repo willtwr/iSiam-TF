@@ -68,25 +68,22 @@ python experiments/iSiam.py
 tensorboard --logdir=Logs/SiamFC/track_model_checkpoints/iSiam
 ```
 
-## Benchmark
-You can use the `run_SiamFC.py` in `benchmarks` directory to integrate with the OTB evaluation toolkit. The OTB toolkit has been ported to python. The original version is [here](https://github.com/jwlim/tracker_benchmark). However, you may want to use my [custom version](https://github.com/bilylee/tracker_benchmark) where several bugs are fixed. 
+## Benchmark OTB-100
+Benchmark for OTB-100 uses the [custom OTB evaluation toolkit](https://github.com/bilylee/tracker_benchmark) where several bugs are fixed. 
 
-Assume that you have followed the steps in `Tracking` or `Training` section and now have a pretrained/trained-from-scratch model to evaluate. To integrate with the evaluation toolkit, 
 ```bash
-# Let's follow this directory structure
+# Assume directory structure:
 # Your-Workspace-Directory
 #         |- SiamFC-TensorFlow
 #         |- tracker_benchmark
 #         |- ...
 # 0. Go to your workspace directory
-cd /path/to/your/workspace
+cd /path/to/Your-Workspace-Directory
 
 # 1. Download the OTB toolkit
 git clone https://github.com/bilylee/tracker_benchmark.git
 
-# 2. Modify line 22 and 25 in SiamFC-TensorFlow/benchmarks/run_SiamFC.py accordingly. 
-# In Linux, you can simply run
-sed -i "s+/path/to/SiamFC-TensorFlow+`realpath SiamFC-TensorFlow`+g" SiamFC-TensorFlow/benchmarks/run_SiamFC.py
+# 2. Modify iSiam-TF/benchmarks/run_iSiam.py accordingly. 
 
 # 3. Copy run_SiamFC.py to the evaluation toolkit
 cp SiamFC-TensorFlow/benchmarks/run_SiamFC.py tracker_benchmark/scripts/bscripts
