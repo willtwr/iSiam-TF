@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
@@ -18,26 +18,16 @@ import time
 import tensorflow as tf
 
 # Code root absolute path
-CODE_ROOT = '/home/william/SiamFC-TensorFlow'
+CODE_ROOT = '/home/william/iSiam-TF'
 
 # Checkpoint for evaluation
-CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-dense-nofbgs'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-rgb'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-hsv360'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-lab'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-opp'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-midfuse-hsvlab-v4'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-hsvlab'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-iso-ext'
+CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/iSiam'
 
 sys.path.insert(0, CODE_ROOT)
 
 from utils.misc_utils import auto_select_gpu, load_cfgs
-from inference import inference_wrapper_nl as inference_wrapper
-#from inference import inference_wrapper_nl_otb_2stream as inference_wrapper
-#from inference import inference_wrapper_bgaware as inference_wrapper
-from inference.tracker_nl import Tracker
+from inference import inference_wrapper_otb as inference_wrapper
+from inference.tracker_otb import Tracker
 from utils.infer_utils import Rectangle
 
 # Set GPU
@@ -86,7 +76,6 @@ def run_SiamFC_nl(seq, rp, bSaveImage):
        os.mkdir(dir_name)
 
     trajectory_py = tracker.track(sess, init_bb, frames, logdir=dir_name)
-    #trajectory = [Rectangle(val.x, val.y, val.width, val.height) for val in trajectory_py]  # x, y add one to match OTB format
     trajectory = [Rectangle(val.x + 1, val.y + 1, val.width, val.height) for val in trajectory_py]  # x, y add one to match OTB format    
     duration = time.time() - tic
 
