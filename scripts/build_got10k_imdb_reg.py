@@ -27,7 +27,8 @@ from utils.misc_utils import sort_nicely
 class Config:
   ### Dataset
   # directory where curated dataset is stored
-  dataset_dir = '/store_ssd/got10k-Curation'
+  dataset_dir = 'data/got10k-Curation'
+  anno_dir = 'data/got10k'
   save_dir = 'data/'
 
 
@@ -41,7 +42,7 @@ class Dataset:
     self.config = config
 
   def dataset_iterator(self, video_dirs):
-    anno_dir = '/store_ssd/got10k'
+    anno_dir = self.config.anno_dir
     video_num = len(video_dirs)
     iter_size = 150
     iter_num = int(np.ceil(video_num / float(iter_size)))
