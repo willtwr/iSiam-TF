@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
@@ -19,24 +19,10 @@ import os.path as osp
 import numpy as np
 import tensorflow as tf
 
-#from embeddings.convolutional_alexnet_multi import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_multi import convolutional_alexnet
-#from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v2 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v2 import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v3 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v3 import convolutional_alexnet
-from embeddings.convolutional_alexnet_2stream_v4 import convolutional_alexnet_arg_scope
-from embeddings.convolutional_alexnet_2stream_v4 import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v4b import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v4b import convolutional_alexnet, attention_module
-#from embeddings.convolutional_alexnet_2stream_v5 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v5 import convolutional_alexnet
+from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet_arg_scope
+from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet
 from utils.infer_utils import get_exemplar_images
-from utils.misc_utils import get_center, rgb_to_lab, rgb_to_opp
+from utils.misc_utils import get_center
 
 slim = tf.contrib.slim
 
@@ -177,28 +163,7 @@ class InferenceWrapper():
       with slim.arg_scope(self.arg_scope):
         return convolutional_alexnet(images, reuse=reuse)
     
-    # Color space conversion
-    im_lab = rgb_to_lab(images)
-    im_hsv = tf.image.rgb_to_hsv(tf.image.convert_image_dtype(images, tf.float32))
-    #im_opp = rgb_to_opp(images)
-    
-    # Rescale HSV to original, TF rescaled range to [0, 1]
-    sc = tf.constant([360., 100., 100.], dtype=tf.float32, name='hsv_scale', shape=[1,1,1,3])
-    im_hsv = im_hsv * sc
-    
-    #sc = tf.constant([0.01, 1. / 128., 1. / 128.], dtype=tf.float32, name='lab_scale', shape=[1,1,1,3])
-    #im_lab = im_lab * sc
-    
-    #im = images
-    #im = im_lab
-    #im = im_hsv
-    #im = im_opp
-    im = tf.concat([im_hsv, im_lab], -1)
-    #im = tf.concat([im_hsv, im_opp], -1)
-    #im = tf.concat([im_opp, im_lab], -1)
-    #im = tf.concat([tf.expand_dims(im_hsv[...,1], -1), im_opp], -1)
-    #im = tf.concat([tf.expand_dims(im_hsv[...,1], -1), im_lab], -1)
-    
+    im = images
     outputs = embedding_fn(im, reuse)
     return outputs[0], outputs[1]
   
@@ -229,11 +194,6 @@ class InferenceWrapper():
       return embeds, embeds2
     
     def background_suppression(embeds, ratio):
-      #offsets = tf.cond(tf.greater(ratio, 1.5),  # 1.2 / 0.83
-                        #lambda: [1., 1. / ratio], 
-                        #lambda: tf.cond(tf.less(ratio, 0.67), lambda: [1. * ratio, 1.], 
-                                        #lambda: [0.7, 0.7]))
-      
       offsets = tf.cond(tf.greater(ratio, 1.5),  # 1.2 / 0.83; 1.5 / 0.67
                         lambda: [1., 1.2 / ratio], 
                         lambda: tf.cond(tf.less(ratio, 0.67), 
@@ -243,19 +203,8 @@ class InferenceWrapper():
                                                         lambda: tf.cond(tf.less(ratio, 0.83), 
                                                                         lambda: [1.1 * ratio, 1.], 
                                                                         lambda: [0.7, 0.7]))))
-      
       h = tf.cast(size_z * offsets[0], tf.int32)
       w = tf.cast(size_z * offsets[1], tf.int32)
-      
-      #offsets = tf.cond(tf.logical_or(tf.greater(ratio, 1.5), tf.less(ratio, 0.67)),  # 1.2 / 0.83; 1.5 / 0.67
-                        #lambda: 1.1, 
-                        #lambda: tf.cond(tf.logical_or(tf.greater(ratio, 1.2), tf.less(ratio, 0.83)), 
-                                        #lambda: 1.1, 
-                                        #lambda: 1.1))
-      
-      #h = tf.cast(self.target_size[0] * offsets, tf.int32)
-      #w = tf.cast(self.target_size[1] * offsets, tf.int32)
-      
       embeds_mean = tf.reduce_mean(embeds, axis=(0, 1), keepdims=True)
       embeds = embeds - embeds_mean
       embeds = tf.image.resize_image_with_crop_or_pad(embeds, h, w)
@@ -274,9 +223,6 @@ class InferenceWrapper():
     templates, templates2 = tf.map_fn(lambda x: boundary_suppression(x[0], x[1], x[2]),
                                       (templates, templates2, tf.expand_dims(ratio, 0)),
                                       dtype=(templates.dtype, templates2.dtype))
-    
-    templates = templates
-    templates2 = templates2
     
     with tf.variable_scope('target_template'):
       # Store template in Variable such that we don't have to feed this template every time.
@@ -357,8 +303,7 @@ class InferenceWrapper():
         
   def build_detection(self):
     self.embeds, self.embeds2 = self.get_image_embedding(self.search_images, reuse=True)
-    alpha = 0.5  # 0.5
-    beta = 0.2  # 0.3
+    alpha = 0.5
     
     with tf.variable_scope('detection'):
       def _translation_match(x, z):  # translation match for one example within a batch
@@ -367,90 +312,30 @@ class InferenceWrapper():
         y = tf.nn.conv2d(x, z, strides=[1, 1, 1, 1], padding='VALID', name='translation_match')
         return y
       
-      #def _dep_translation_match(x, z):  # translation match for one example within a batch
-        #x = tf.expand_dims(x, 0)  # [1, in_height, in_width, in_channels]
-        #z = tf.expand_dims(z, -1)  # [filter_height, filter_width, in_channels, 1]
-        #y = tf.nn.depthwise_conv2d(x, z, strides=[1, 1, 1, 1], padding='VALID', name='dep_translation_match')
-        #return y
-      
-      #@functools.wraps(attention_module)
-      #def att_fn(images, reuse=False):
-        #with slim.arg_scope(self.arg_scope):
-          #y, _ = attention_module(images, reuse=reuse)
-          #return y
-      
       with tf.variable_scope('patch_matching'):
         template = tf.add_n(self.pseu_temp) / (len(self.pseu_temp))
         template = alpha * self.templates + (1. - alpha) * template
         
-        embeds = tf.split(self.embeds, 2, axis=-1)
-        template = tf.split(template, 2, axis=-1)
-        #embeds = self.embeds
-        
-        #output = tf.map_fn(lambda x: _translation_match(x, template[0]),
-                           #embeds,
-                           #dtype=embeds.dtype)        
-        #output = tf.squeeze(output, [1])  # of shape e.g., [b, h, w, n]
-        
-        #output = tf.map_fn(lambda x: _dep_translation_match(x, template[0]),
-                           #embeds,
-                           #dtype=embeds.dtype)
-        #output = tf.squeeze(output, [1])  # of shape e.g., [b, h, w, n]
-        #output = att_fn(output)        
-        
-        output_s1 = tf.map_fn(lambda x: _translation_match(x, template[0][0]),
-                              embeds[0],
-                              dtype=self.embeds.dtype)
-        output_s1 = tf.squeeze(output_s1, [1])  # of shape e.g., [b, h, w, 1]
-        
-        output_s2 = tf.map_fn(lambda x: _translation_match(x, template[1][0]),
-                              embeds[1],
-                             dtype=self.embeds.dtype)
-        output_s2 = tf.squeeze(output_s2, [1])  # of shape e.g., [b, h, w, 1]        
+        embeds = self.embeds
+        output = tf.map_fn(lambda x: _translation_match(x, template[0]),
+                           embeds,
+                           dtype=embeds.dtype)        
+        output = tf.squeeze(output, [1])  # of shape e.g., [b, h, w, n]
         
       with tf.variable_scope('patch_matching2'):
         template2 = tf.add_n(self.pseu_temp2) / (len(self.pseu_temp2))
         template2 = alpha * self.templates2 + (1. - alpha) * template2
         
-        embeds2 = tf.split(self.embeds2, 2, axis=-1)
-        template2 = tf.split(template2, 2, axis=-1)
-        #embeds2 = self.embeds2
-        
-        #output2 = tf.map_fn(lambda x: _translation_match(x, template2[0]),
-                                  #embeds2,
-                                  #dtype=embeds2.dtype)
-        #output2 = tf.squeeze(output2, [1])  # of shape e.g., [b, h, w, n]
-        
-        #output2 = tf.map_fn(lambda x: _dep_translation_match(x, template2[0]),
-                            #embeds2,
-                            #dtype=embeds2.dtype)
-        #output2 = tf.squeeze(output2, [1])  # of shape e.g., [b, h, w, n]
-        #output2 = att_fn(output2)
-        
-        output2_s1 = tf.map_fn(lambda x: _translation_match(x, template2[0][0]),
-                               embeds2[0],
-                               dtype=self.embeds2.dtype)
-        output2_s1 = tf.squeeze(output2_s1, [1])  # of shape e.g., [b, h, w, 1]
-        
-        output2_s2 = tf.map_fn(lambda x: _translation_match(x, template2[1][0]),
-                               embeds2[1],
-                               dtype=self.embeds2.dtype)
-        output2_s2 = tf.squeeze(output2_s2, [1])  # of shape e.g., [b, h, w, 1]        
+        embeds2 = self.embeds2
+        output2 = tf.map_fn(lambda x: _translation_match(x, template2[0]),
+                                  embeds2,
+                                  dtype=embeds2.dtype)
+        output2 = tf.squeeze(output2, [1])  # of shape e.g., [b, h, w, n]
         
       with slim.arg_scope(self.arg_scope):
-        #output = slim.batch_norm(output, scope='bn_patch')
-        #output2 = slim.batch_norm(output2, scope='bn_patch2')
+        output = slim.batch_norm(output, scope='bn_patch')
+        output2 = slim.batch_norm(output2, scope='bn_patch2')
         
-        output_s1 = slim.batch_norm(output_s1, scope='bn_patch_s1')
-        output_s2 = slim.batch_norm(output_s2, scope='bn_patch_s2')
-        output2_s1 = slim.batch_norm(output2_s1, scope='bn_patch2_s1')
-        output2_s2 = slim.batch_norm(output2_s2, scope='bn_patch2_s2')
-        
-        #output = slim.batch_norm(output, scope='bn_patch_ext')
-        #output2 = slim.batch_norm(output2, scope='bn_patch2_ext')
-      
-      output = output_s1 * beta + output_s2 * (1. - beta)
-      output2 = output2_s1 * beta + output2_s2 * (1. - beta)
       outputF_all = tf.squeeze(output * 0.5 + output2 * 0.5, -1)
       self.response = outputF_all
       
