@@ -39,9 +39,9 @@ pip install nvidia-ml-py
 
 ## Training
 ```bash
-# 1. Download and unzip the ImageNet VID 2015 dataset (~86GB)
-# Now, we assume it is unzipped in /path/to/ILSVRC2015
-DATASET=/path/to/ILSVRC2015
+# 1. Download and unzip the GOT-10k dataset http://got-10k.aitestunion.com/
+# Now, we assume it is unzipped in /path/to/got10k
+DATASET=/path/to/got10k
 
 # 2. Clone this repository to your disk 
 # (Skip this step if you have already done it in the Tracking section)
@@ -137,4 +137,4 @@ python scripts/show_tracking.py
 ```
 
 ## License
-SiamFC-TensorFlow is released under the MIT License (refer to the LICENSE file for details).
+iSiam-TF is released under the MIT License (refer to the LICENSE file for details).
