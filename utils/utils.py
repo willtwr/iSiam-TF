@@ -1,3 +1,9 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2019 WR Tan       National Tsing Hua University
+# Distributed under terms of the MIT license.
+
 import numpy as np
 import unicodedata
 import os
