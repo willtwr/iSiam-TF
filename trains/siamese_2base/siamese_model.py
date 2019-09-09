@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
@@ -15,23 +15,10 @@ import functools
 import tensorflow as tf
 
 from datasets.dataloader_reg import DataLoader
-#from embeddings.convolutional_alexnet_multi import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_multi import convolutional_alexnet
 from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet_arg_scope
 from embeddings.convolutional_alexnet_multi_fnonlinear import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v2 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v2 import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v3 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v3 import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v4 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v4 import convolutional_alexnet
-#from embeddings.convolutional_alexnet_2stream_v5 import convolutional_alexnet_arg_scope
-#from embeddings.convolutional_alexnet_2stream_v5 import convolutional_alexnet
 from metrics.track_metrics import center_dist_error, center_score_error
 from utils.train_utils import construct_gt_score_maps, load_mat_model, construct_seg_score_maps
-from utils.misc_utils import rgb_to_lab, rgb_to_opp
 
 slim = tf.contrib.slim
 
@@ -90,12 +77,6 @@ class SiameseModel:
         return convolutional_alexnet(images, reuse=reuse)
     
     def background_suppression(embeds, ratio):
-      #offsets = tf.cond(tf.greater(ratio, 1.5), 
-                        #lambda: [1., 1. / ratio], 
-                        #lambda: tf.cond(tf.less(ratio, 0.67), lambda: [1. * ratio, 1.], 
-                                        #lambda: [0.7, 0.7]))      
-      #h = tf.cast(size_z * offsets[0], tf.int32)
-      #w = tf.cast(size_z * offsets[1], tf.int32)
       h = tf.cast(ratio[1] * 0.6, tf.int32)
       w = tf.cast(ratio[0] * 0.6, tf.int32)
       embeds_mean = tf.reduce_mean(embeds, axis=(0, 1), keepdims=True)
@@ -108,56 +89,9 @@ class SiameseModel:
     instances = self.instances
     
     exemplars = tf.map_fn(lambda x: background_suppression(x[0], x[1]),
-                          #(exemplars, self.ratio[1] / self.ratio[0]),
                           (exemplars, self.ratio),
                           dtype=exemplars.dtype)
     self.exemplars_show = exemplars
-    
-    # Convert to HSV color space
-    sc = tf.constant([360., 100., 100.], dtype=tf.float32, name='hsv_scale', shape=[1,1,1,3])
-    exemplars_hsv = tf.image.rgb_to_hsv(tf.image.convert_image_dtype(exemplars, tf.float32)) * sc
-    instances_hsv = tf.image.rgb_to_hsv(tf.image.convert_image_dtype(instances, tf.float32)) * sc
-    
-    # convert to CIELAB color space
-    #sc = tf.constant([0.01, 1. / 128., 1. / 128.], dtype=tf.float32, name='hsv_scale', shape=[1,1,1,3])
-    exemplars_lab = rgb_to_lab(exemplars)
-    instances_lab = rgb_to_lab(instances)
-    
-    # convert to OPP color space
-    #exemplars_opp = rgb_to_opp(exemplars)
-    #instances_opp = rgb_to_opp(instances)
-    
-    # Use OPP or CIELAB or HSV, comment all for RGB
-    #exemplars = exemplars_hsv
-    #instances = instances_hsv
-    #exemplars = exemplars_lab
-    #instances = instances_lab
-    #exemplars = exemplars_opp
-    #instances = instances_opp
-    
-    # Use RGB and HSV color space
-    #exemplars = tf.concat([exemplars, tf.expand_dims(exemplars_hsv[...,-1], -1)], -1)
-    #instances = tf.concat([instances, tf.expand_dims(instances_hsv[...,-1], -1)], -1)
-    
-    # Use HSV and CIELAB color space
-    exemplars = tf.concat([exemplars_hsv, exemplars_lab], -1)
-    instances = tf.concat([instances_hsv, instances_lab], -1)
-    
-    # Use HSV and OPP color space
-    #exemplars = tf.concat([exemplars_hsv, exemplars_opp], -1)
-    #instances = tf.concat([instances_hsv, instances_opp], -1)
-    
-    # Use S of HSV and OPP color space
-    #exemplars = tf.concat([tf.expand_dims(exemplars_hsv[...,1], -1), exemplars_opp], -1)
-    #instances = tf.concat([tf.expand_dims(instances_hsv[...,1], -1), instances_opp], -1)
-    
-    # Use S of HSV and CIELAB color space
-    #exemplars = tf.concat([tf.expand_dims(exemplars_hsv[...,1], -1), exemplars_lab], -1)
-    #instances = tf.concat([tf.expand_dims(instances_hsv[...,1], -1), instances_lab], -1)    
-    
-    # Use OPP and CIELAB color space
-    #exemplars = tf.concat([exemplars_opp, exemplars_lab], -1)
-    #instances = tf.concat([instances_opp, instances_lab], -1)
     
     outputs = embedding_fn(exemplars, reuse=reuse)
     self.exemplar_embeds = outputs[0]
@@ -201,54 +135,21 @@ class SiameseModel:
         return y
       
       with tf.variable_scope('patch_matching'):
-        #output = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                           #(self.instance_embeds, self.templates),
-                           #dtype=self.instance_embeds.dtype)
-        #output = tf.squeeze(output, [1])  # of shape e.g., [b, h, w, 1]
-        
-        embeds = tf.split(self.instance_embeds, 2, axis=-1)
-        template = tf.split(self.templates, 2, axis=-1)        
-        
-        output_s1 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                              (embeds[0], template[0]),
-                              dtype=embeds[0].dtype)
-        output_s1 = tf.squeeze(output_s1, [1])  # of shape e.g., [b, h, w, 1]
-      
-        output_s2 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                              (embeds[1], template[1]),
-                              dtype=embeds[1].dtype)
-        output_s2 = tf.squeeze(output_s2, [1])  # of shape e.g., [b, h, w, 1]           
+        output = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
+                           (self.instance_embeds, self.templates),
+                           dtype=self.instance_embeds.dtype)
+        output = tf.squeeze(output, [1])  # of shape e.g., [b, h, w, 1]
         
       with tf.variable_scope('patch_matching2'):
-        #output2 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                            #(self.instance_embeds2, self.templates2),
-                            #dtype=self.instance_embeds2.dtype)
-        #output2 = tf.squeeze(output2, [1])  # of shape e.g., [b, h, w, 1]
-        
-        embeds2 = tf.split(self.instance_embeds2, 2, axis=-1)
-        template2 = tf.split(self.templates2, 2, axis=-1)        
-        
-        output2_s1 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                              (embeds2[0], template2[0]),
-                              dtype=embeds2[0].dtype)
-        output2_s1 = tf.squeeze(output2_s1, [1])  # of shape e.g., [b, h, w, 1]
-      
-        output2_s2 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
-                              (embeds2[1], template2[1]),
-                              dtype=embeds2[1].dtype)
-        output2_s2 = tf.squeeze(output2_s2, [1])  # of shape e.g., [b, h, w, 1]          
+        output2 = tf.map_fn(lambda x: _translation_match(x[0], x[1]),
+                            (self.instance_embeds2, self.templates2),
+                            dtype=self.instance_embeds2.dtype)
+        output2 = tf.squeeze(output2, [1])  # of shape e.g., [b, h, w, 1]
         
       with slim.arg_scope(self.arg_scope):
-        #output = slim.batch_norm(output, scope='bn_patch')
-        #output2 = slim.batch_norm(output2, scope='bn_patch2')
+        output = slim.batch_norm(output, scope='bn_patch')
+        output2 = slim.batch_norm(output2, scope='bn_patch2')
         
-        output_s1 = slim.batch_norm(output_s1, scope='bn_patch_s1')
-        output_s2 = slim.batch_norm(output_s2, scope='bn_patch_s2')
-        output2_s1 = slim.batch_norm(output2_s1, scope='bn_patch2_s1')
-        output2_s2 = slim.batch_norm(output2_s2, scope='bn_patch2_s2')
-       
-      output = tf.concat([output_s1, output_s2], 0)
-      output2 = tf.concat([output2_s1, output2_s2], 0)
       output = tf.squeeze(output, -1)
       output2 = tf.squeeze(output2, -1)
       self.total_response = output * 0.5 + output2 * 0.5
@@ -258,7 +159,7 @@ class SiameseModel:
     response = self.response
     response_size = response.get_shape().as_list()[1:3]
     gt = construct_gt_score_maps(response_size,
-                                 self.data_config['batch_size'] * 4,
+                                 self.data_config['batch_size'] * 2,
                                  self.model_config['embed_config']['stride'],
                                  self.train_config['gt_config'])
     
