@@ -40,38 +40,32 @@ pip install nvidia-ml-py
 ## Training
 ```bash
 # 1. Download and unzip the GOT-10k dataset http://got-10k.aitestunion.com/
-# Now, we assume it is unzipped in /path/to/got10k
+# Now, we assume it is unzipped to /path/to/got10k
 DATASET=/path/to/got10k
 
 # 2. Clone this repository to your disk 
-# (Skip this step if you have already done it in the Tracking section)
-git clone https://github.com/bilylee/SiamFC-TensorFlow.git
+# (Skip this step if you have already done)
+git clone https://github.com/willtwr/iSiam-TF.git
 
 # 3. Change working directory
-cd SiamFC-TensorFlow
+cd iSiam-TF
 
 # 4. Create a soft link pointing to the ImageNet VID dataset
 mkdir -p data
-ln -s $DATASET data/ILSVRC2015
+ln -s $DATASET data/got10k
 
 # 5. Prepare training data
-# If you have followed the data preparation procedures in 
-# the MatConvNet implementation, simply create a soft link 
-# pointing to the curated dataset:
-#       ln -s $CURATED_DATASET data/ILSVRC2015-VID-Curation
-# Otherwise, create it from scratch by
-python scripts/preprocess_VID_data.py
+python scripts/preprocess_got10k_data.py
 
 # 6. Split train/val dataset and store corresponding image paths
-python scripts/build_VID2015_imdb.py
+python scripts/build_got10k_imdb_reg.py
 
 # 7. Start training
-# You can get quite good results after ~70k iterations.
-python experiments/SiamFC-3s-color-scratch.py
+python experiments/iSiam.py
 
 # 8. (OPTIONAL) View the training progress in TensorBoard
-# Open a new terminal session and cd to SiamFC-TensorFlow, then
-tensorboard --logdir=Logs/SiamFC/track_model_checkpoints/SiamFC-3s-color-scratch
+# Open a new terminal session and cd to iSiam-TF, then
+tensorboard --logdir=Logs/SiamFC/track_model_checkpoints/iSiam
 ```
 
 ## Benchmark
