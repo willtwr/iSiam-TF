@@ -11,15 +11,13 @@ This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with D
 The main requirements can be installed by:
 ```bash
 # (OPTIONAL) 0. It is highly recommended to create a virtualenv or conda environment
-# For example, 
-#       conda create -n tensorflow1.4 python=2.7
-#       source activate tensorflow1.4
+conda create -n pytf python=2.7
+source activate pytf
 
-# 1. Install TensorFlow 1.4.0 
-# Version 1.4.0 is required for training since we use tf.data API
-# You can use TensorFlow > 1.0 for tracking though.
-# Note the tracking performance slightly varies in different versions.
-# pip install tensorflow    # For CPU
+# 1. Install TensorFlow
+Version > 1.4.0 is required.
+Note the tracking performance slightly varies in different versions.
+pip install tensorflow    # For CPU
 pip install tensorflow-gpu  # For GPU
 
 # 2. Install scipy for loading mat files
