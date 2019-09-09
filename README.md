@@ -15,8 +15,8 @@ conda create -n pytf python=2.7
 source activate pytf
 
 # 1. Install TensorFlow
-Version > 1.4.0 is required.
-Note the tracking performance slightly varies in different versions.
+# Version > 1.4.0 is required.
+# Note the tracking performance slightly varies in different versions.
 pip install tensorflow    # For CPU
 pip install tensorflow-gpu  # For GPU
 
