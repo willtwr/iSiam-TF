@@ -74,7 +74,7 @@ Benchmark for OTB-100 uses the [custom OTB evaluation toolkit](https://github.co
 ```bash
 # Assume directory structure:
 # Your-Workspace-Directory
-#         |- SiamFC-TensorFlow
+#         |- iSiam-TF
 #         |- tracker_benchmark
 #         |- ...
 # 0. Go to your workspace directory
@@ -83,19 +83,19 @@ cd /path/to/Your-Workspace-Directory
 # 1. Download the OTB toolkit
 git clone https://github.com/bilylee/tracker_benchmark.git
 
-# 2. Modify iSiam-TF/benchmarks/run_SiamFC_otb.py accordingly. 
+# 2. Modify iSiam-TF/benchmarks/run_iSiam_otb.py if needed. 
 
-# 3. Copy run_SiamFC_otb.py to the evaluation toolkit
-cp SiamFC-TensorFlow/benchmarks/run_SiamFC_otb.py tracker_benchmark/scripts/bscripts
+# 3. Copy run_iSiam_otb.py to the evaluation toolkit
+cp iSiam-TF/benchmarks/run_iSiam_otb.py tracker_benchmark/scripts/bscripts
 
 # 4. Add the tracker to the evaluation toolkit list
-echo "\nfrom run_SiamFC_otb import *" >> tracker_benchmark/scripts/bscripts/__init__.py
+echo "\nfrom run_iSiam_otb import *" >> tracker_benchmark/scripts/bscripts/__init__.py
 
 # 5. Create tracker directory in the evaluation toolkit
-mkdir tracker_benchmark/trackers/SiamFC
+mkdir tracker_benchmark/trackers/iSiam_otb
 
 # 6. Start evaluation (it will take some time to download test sequences).
-echo "tb100" | python tracker_benchmark/run_trackers.py -t SiamFC -s tb100 -e OPE
+echo "tb100" | python tracker_benchmark/run_trackers.py -t iSiam_otb -s tb100 -e OPE
 
 # 7. Get the AUC score
 sed -i "s+tb50+tb100+g" tracker_benchmark/draw_graph.py
