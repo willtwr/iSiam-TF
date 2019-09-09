@@ -1,13 +1,10 @@
 # iSiam-TF (under construction)
-A TensorFlow implementation of the i-Siam tracker
+A TensorFlow implementation of the i-Siam tracker.
+The codes were fetched and modified from https://github.com/bilylee/SiamFC-TensorFlow.
 
 ## Introduction
 
-This is a TensorFlow implementation of [na](na). 
-
-Qualitative results:
-
-![Qualitative_results](???)
+This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with Distractors Suppression and Long-Term Strategies](na). 
 
 ## Prerequisite
 The main requirements can be installed by:
@@ -104,10 +101,6 @@ python experiments/SiamFC-3s-color-scratch.py
 # Open a new terminal session and cd to SiamFC-TensorFlow, then
 tensorboard --logdir=Logs/SiamFC/track_model_checkpoints/SiamFC-3s-color-scratch
 ```
-
-Example TensorBoard outputs are like:
-
-![TensorBoard](./assets/TensorBoard.png)
 
 ## Benchmark
 You can use the `run_SiamFC.py` in `benchmarks` directory to integrate with the OTB evaluation toolkit. The OTB toolkit has been ported to python. The original version is [here](https://github.com/jwlim/tracker_benchmark). However, you may want to use my [custom version](https://github.com/bilylee/tracker_benchmark) where several bugs are fixed. 
