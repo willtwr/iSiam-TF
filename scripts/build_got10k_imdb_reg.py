@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
-"""Save the paths of crops from the ImageNet VID 2015 dataset in pickle format"""
+"""Save the paths of crops from the GOT-10k dataset in pickle format"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
