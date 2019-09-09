@@ -83,13 +83,13 @@ cd /path/to/Your-Workspace-Directory
 # 1. Download the OTB toolkit
 git clone https://github.com/bilylee/tracker_benchmark.git
 
-# 2. Modify iSiam-TF/benchmarks/run_iSiam.py accordingly. 
+# 2. Modify iSiam-TF/benchmarks/run_SiamFC_otb.py accordingly. 
 
-# 3. Copy run_SiamFC.py to the evaluation toolkit
-cp SiamFC-TensorFlow/benchmarks/run_SiamFC.py tracker_benchmark/scripts/bscripts
+# 3. Copy run_SiamFC_otb.py to the evaluation toolkit
+cp SiamFC-TensorFlow/benchmarks/run_SiamFC_otb.py tracker_benchmark/scripts/bscripts
 
 # 4. Add the tracker to the evaluation toolkit list
-echo "\nfrom run_SiamFC import *" >> tracker_benchmark/scripts/bscripts/__init__.py
+echo "\nfrom run_SiamFC_otb import *" >> tracker_benchmark/scripts/bscripts/__init__.py
 
 # 5. Create tracker directory in the evaluation toolkit
 mkdir tracker_benchmark/trackers/SiamFC
