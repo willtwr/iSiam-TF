@@ -33,8 +33,10 @@ pip install opencv-python
 # 6. Install pillow for some image-related operations
 pip install pillow
 
-# (OPTIONAL) 7. Install nvidia-ml-py for automatically selecting GPU
+# 7. Install nvidia-ml-py for automatically selecting GPU
 pip install nvidia-ml-py
+
+# 8. Follow instructions in http://got-10k.aitestunion.com/ to install their toolkits. 
 ```
 
 ## Training
