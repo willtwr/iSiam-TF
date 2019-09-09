@@ -1,28 +1,13 @@
-# SiamFC-TensorFlow
-A TensorFlow implementation of the SiamFC tracker
+# iSiam-TF (under construction)
+A TensorFlow implementation of the i-Siam tracker
 
 ## Introduction
 
-This is a TensorFlow implementation of [Fully-Convolutional Siamese Networks for Object Tracking](https://arxiv.org/abs/1606.09549). You can find the original MatConvNet version [here](https://github.com/bertinetto/siamese-fc). The SiamFC authors have also  released a TensorFlow port of the tracking part (using pretrained model only) in [here](https://github.com/torrvision/siamfc-tf). 
-
-This TensorFlow implementation is designed with these goals:
-- [x] **Self-contained**. Data preparation, model training, tracking, visualization and logging all in one.
-- [x] **Correctness**. The tracking performance should be similar to the MatConvNet version.
-- [x] **Efficiency**. The training and inference procedures should be as efficient as possible.
-- [x] **Modularization**. The whole system should be modularized and easy to expand with new ideas.
-- [x] **Readability**. The code should be clear and consistent.
-
-## Main Results
-In a computer with a `GeForce GTX 1080` GPU, the main results on OTB-100 are in the table below. Note that the performance of SiamFC-3s-color trained from scratch using our implementation is consistently better than SiamFC-3s-gray-scratch. Moreover, We observe that the tracking performance of saved models in different epochs varies considerably, therefore, you may want to evaluate a few more models instead of just picking the model in the last epoch.  
-
-|                   | Reported (AUC)     | Pretrained (AUC)       | Train from scratch (AUC)  | Training time | Tracking time|
-|-------------------|:-------------------:|:---------------------:|:-----:|:--------------:|:------------------:|
-|SiamFC-3s-color  | --                      | 0.575        | 0.580            | ~5h        | ~120fps            |
-|SiamFC-3s-gray   | 0.582                   | 0.584        | 0.571            | ~5h        | ~120fps            |
+This is a TensorFlow implementation of [na](na). 
 
 Qualitative results:
 
-![Qualitative_results](./assets/results.png)
+![Qualitative_results](???)
 
 ## Prerequisite
 The main requirements can be installed by:
