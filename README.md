@@ -50,7 +50,7 @@ git clone https://github.com/willtwr/iSiam-TF.git
 # 3. Change working directory
 cd iSiam-TF
 
-# 4. Create a soft link pointing to the ImageNet VID dataset
+# 4. Create a soft link pointing to the GOT-10k dataset
 mkdir -p data
 ln -s $DATASET data/got10k
 
