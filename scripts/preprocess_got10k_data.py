@@ -81,7 +81,7 @@ if __name__ == '__main__':
   vid_dir = 'data/got10k'
 
   # Or, you could save the actual curated data to a disk with sufficient space
-  # then create a soft link in `data/ILSVRC2015-VID-Curation`
+  # then create a soft link in `data/got10k-Curation`
   save_dir = 'data/got10k-Curation'
 
   pool = ThreadPool(processes=2)
