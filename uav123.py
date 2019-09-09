@@ -1,3 +1,10 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2019 WR Tan     National Tsing Hua University
+#
+# Distributed under terms of the MIT license.
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
