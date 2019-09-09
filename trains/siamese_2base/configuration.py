@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright @ 2017 bily     Huazhong University of Science and Technology
+# Copyright @ 2019 WR Tan     National Tsing Hua University
 #
 
 """Default configurations of model specification, training and tracking
@@ -18,7 +18,7 @@ from __future__ import print_function
 import os.path as osp
 
 LOG_DIR = 'Logs/SiamFC'  # where checkpoints, logs are saved
-RUN_NAME = 'SiamFC-2base'  # identifier of the experiment
+RUN_NAME = 'iSiam'  # identifier of the experiment
 
 MODEL_CONFIG = {
   'z_image_size': 127,  # Exemplar image size
@@ -44,7 +44,7 @@ TRAIN_CONFIG = {
 
   'seed': 123,  # fix seed for reproducing experiments
 
-  'train_data_config': {'input_imdb': 'data/got10k-lmdb/train_imdb.pickle',
+  'train_data_config': {'input_imdb': 'data/train_imdb.pickle',
                         'preprocessing_name': 'siamese_fc_color',
                         'num_examples_per_epoch': 5.32e4,  # 53200
                         'epoch': 50,
@@ -53,7 +53,7 @@ TRAIN_CONFIG = {
                         'prefetch_threads': 3,
                         'prefetch_capacity': 15 * 8, },  # The maximum elements number in the data loading queue
 
-  'validation_data_config': {'input_imdb': 'data/got10k-lmdb/validation_imdb.pickle',
+  'validation_data_config': {'input_imdb': 'data/validation_imdb.pickle',
                              'preprocessing_name': 'None',
                              'batch_size': 8,
                              'max_frame_dist': 100,  # Maximum distance between any two random frames draw from videos.
