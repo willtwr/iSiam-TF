@@ -35,7 +35,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
 
-def run_SiamFC_nl(seq, rp, bSaveImage):
+def run_iSiam_otb(seq, rp, bSaveImage):
   checkpoint_path = CHECKPOINT
   logging.info('Evaluating {}...'.format(checkpoint_path))
 
