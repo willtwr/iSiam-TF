@@ -36,12 +36,12 @@ pip install pillow
 # 7. Install nvidia-ml-py for automatically selecting GPU
 pip install nvidia-ml-py
 
-# 8. Follow instructions in http://got-10k.aitestunion.com/ to install their toolkits. 
+# 8. Follow instructions in [GOT-10k github](https://github.com/got-10k/toolkit) to install their toolkits. 
 ```
 
 ## Training
 ```bash
-# 1. Download and unzip the GOT-10k dataset http://got-10k.aitestunion.com/
+# 1. Download and unzip the [GOT-10k dataset](http://got-10k.aitestunion.com/)
 # Now, we assume it is unzipped to /path/to/got10k
 DATASET=/path/to/got10k
 
