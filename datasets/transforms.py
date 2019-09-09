@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
+# Modified from https://github.com/bilylee/SiamFC-TensorFlow
 #
 # Distributed under terms of the MIT license.
 
