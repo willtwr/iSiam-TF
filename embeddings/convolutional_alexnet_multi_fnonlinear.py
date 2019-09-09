@@ -1,16 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
-"""Contains definitions of the network in [1].
-
-  [1] Bertinetto, L., et al. (2016).
-      "Fully-Convolutional Siamese Networks for Object Tracking."
-      arXiv preprint arXiv:1606.09549.
-"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
