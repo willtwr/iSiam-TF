@@ -115,7 +115,7 @@ Benchmark for [UAV-123](https://uav123.org/).
 # 0. Go to your workspace directory
 cd /path/to/Your-Workspace-Directory/iSiam-TF
 
-# 1. Modify uav123.py if needed. 
+# 1. Modify uav123.py if needed, e.g. all the paths. 
 
 # 2. Start evaluation (it will take some time to download test sequences).
 python uav123.py
