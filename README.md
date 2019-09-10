@@ -157,6 +157,32 @@ sed -i "s+tb50+tb100+g" TLP_benchmark/draw_graph.py
 python TLP_benchmark/draw_graph.py
 ```
 
+## Benchmark OxUvA
+Benchmark for [OxUvA](https://oxuva.github.io/long-term-tracking-benchmark/).
+
+Please follow the insturction in [OxUvA github](https://github.com/oxuva/long-term-tracking-benchmark.git) for installation.
+
+Note that users need to modify the path accordingly, both command line and in the files.
+
+```bash
+# Assume directory structure:
+# Your-Workspace-Directory
+#         |- iSiam-TF
+#         |- long-term-tracking-benchmark
+#         |- ...
+# 0. copy iSiam-TF/benchmarks/oxuva/scripts to long-term-tracking-benchmark/
+
+# 1. copy iSiam-TF/benchmarks/oxuva/examples to long-term-tracking-benchmark/examples
+
+# 2. Go to 
+cd /path/to/Your-Workspace-Directory/long-term-tracking-benchmark/examples
+
+# 3. Start evaluation (it will take some time to download test sequences).
+python track.py -v ../../dataset/ ../../predictions/ --data=dev --tracker=iSiam
+
+# 4. To draw graphs, please follow the instructions in https://github.com/oxuva/long-term-tracking-benchmark.git
+```
+
 ## Tracking
 ```bash
 # 1. Clone this repository to your disk
