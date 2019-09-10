@@ -134,7 +134,7 @@ python uav123_draw.py
 ```
 
 ## Benchmark TLP
-Benchmark for TLP uses another [custom toolkit](https://github.com/willtwr/TLP_benchmark.git) where it is modified for TLP dataset. 
+Benchmark for [TLP](https://amoudgl.github.io/tlp/) uses another [custom toolkit](https://github.com/willtwr/TLP_benchmark.git).
 
 ```bash
 # Assume directory structure:
@@ -167,11 +167,7 @@ python TLP_benchmark/draw_graph.py
 ```
 
 ## Benchmark OxUvA
-Benchmark for [OxUvA](https://oxuva.github.io/long-term-tracking-benchmark/).
-
-Please follow the insturction in [OxUvA github](https://github.com/oxuva/long-term-tracking-benchmark.git) for installation.
-
-Note that users need to modify the path accordingly, both command line and in the files.
+Benchmark for [OxUvA](https://oxuva.github.io/long-term-tracking-benchmark/).Please follow the instructions in [OxUvA github](https://github.com/oxuva/long-term-tracking-benchmark.git) for installation. Note that users need to modify the path accordingly, both command line and in the files.
 
 ```bash
 # Assume directory structure:
