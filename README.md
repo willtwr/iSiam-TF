@@ -104,6 +104,26 @@ sed -i "s+tb50+tb100+g" tracker_benchmark/draw_graph.py
 python tracker_benchmark/draw_graph.py
 ```
 
+## Benchmark UAV-123
+Benchmark for [UAV-123](https://uav123.org/).
+
+```bash
+# Assume directory structure:
+# Your-Workspace-Directory
+#         |- iSiam-TF
+#         |- ...
+# 0. Go to your workspace directory
+cd /path/to/Your-Workspace-Directory/iSiam-TF
+
+# 1. Modify uav123.py if needed. 
+
+# 2. Start evaluation (it will take some time to download test sequences).
+python uav123.py
+
+# (optional) 3. Get the AUC score for all compared trackers
+python uav123_draw.py
+```
+
 ## Benchmark TLP
 Benchmark for TLP uses another [custom toolkit](https://github.com/willtwr/TLP_benchmark.git) where it is modified for TLP dataset. 
 
@@ -116,7 +136,7 @@ Benchmark for TLP uses another [custom toolkit](https://github.com/willtwr/TLP_b
 # 0. Go to your workspace directory
 cd /path/to/Your-Workspace-Directory
 
-# 1. Download the OTB toolkit
+# 1. Download the custom TLP toolkit
 git clone https://github.com/willtwr/TLP_benchmark.git
 
 # 2. Modify TLP_benchmark/config.py if needed. 
