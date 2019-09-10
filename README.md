@@ -192,7 +192,7 @@ python track.py -v ../../dataset/ ../../predictions/ --data=dev --tracker=iSiam
 # 4. To draw graphs, please follow the instructions in https://github.com/oxuva/long-term-tracking-benchmark.git
 ```
 
-## Tracking
+## Tracking (Not yet tested)
 ```bash
 # 1. Clone this repository to your disk
 git clone https://github.com/bilylee/SiamFC-TensorFlow.git
@@ -203,15 +203,10 @@ cd SiamFC-TensorFlow
 # 3. Download pretrained models and one test sequence 
 python scripts/download_assets.py
 
-# 4. Convert pretrained MatConvNet model into TensorFlow format.
-# Note we use SiamFC-3s-color-pretrained as one example. You
-# Can also use SiamFC-3s-gray-pretrained. 
-python experiments/SiamFC-3s-color-pretrained.py
-
-# 5. Run tracking on the test sequence with the converted model
+# 4. Run tracking on the test sequence with the converted model
 python scripts/run_tracking.py
 
-# 6. Show tracking results
+# 5. Show tracking results
 # You can press Enter to toggle between play and pause, and drag the 
 # scrolling bar in the figure. For more details, see utils/videofig.py
 python scripts/show_tracking.py
