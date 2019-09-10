@@ -27,15 +27,13 @@ import tensorflow as tf
 CODE_ROOT = '/home/william/SiamFC-TensorFlow'
 
 # Checkpoint for evaluation
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-nofbgs'
-#CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base-rgb'
-CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base'
+CHECKPOINT = '/home/william/iSiam-TF/Logs/SiamFC/track_model_checkpoints/SiamFC-iSiam'
 
 sys.path.insert(0, CODE_ROOT)
 
 from utils.misc_utils import load_cfgs
 from inference import inference_wrapper_uav as inference_wrapper
-from inference.tracker_nl_uav import ISiamTrackerTF
+from inference.tracker_uav import ISiamTrackerTF
 from utils.infer_utils import Rectangle
 
 # Set GPU
