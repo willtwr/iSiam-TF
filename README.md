@@ -104,6 +104,39 @@ sed -i "s+tb50+tb100+g" tracker_benchmark/draw_graph.py
 python tracker_benchmark/draw_graph.py
 ```
 
+## Benchmark TLP
+Benchmark for TLP uses another [custom toolkit](https://github.com/willtwr/TLP_benchmark.git) where it is modified for TLP dataset. 
+
+```bash
+# Assume directory structure:
+# Your-Workspace-Directory
+#         |- iSiam-TF
+#         |- TLP_benchmark
+#         |- ...
+# 0. Go to your workspace directory
+cd /path/to/Your-Workspace-Directory
+
+# 1. Download the OTB toolkit
+git clone https://github.com/willtwr/TLP_benchmark.git
+
+# 2. Modify TLP_benchmark/config.py if needed. 
+
+# 3. Modify TLP_benchmark/scripts/bscripts/run_iSiam.py if needed. 
+
+# 4. Add the tracker to the evaluation toolkit list
+echo "\nfrom run_iSiam import *" >> TLP_benchmark/scripts/bscripts/__init__.py
+
+# 5. Create tracker directory in the evaluation toolkit
+mkdir TLP_benchmark/trackers/iSiam
+
+# 6. Start evaluation (it will take some time to download test sequences).
+echo "tlp" | python tracker_benchmark/run_trackers.py -t iSiam -s tlp -e OPE
+
+# 7. Get the AUC score
+sed -i "s+tb50+tb100+g" TLP_benchmark/draw_graph.py
+python TLP_benchmark/draw_graph.py
+```
+
 ## Tracking
 ```bash
 # 1. Clone this repository to your disk
