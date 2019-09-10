@@ -5,7 +5,16 @@ The codes were fetched and modified from https://github.com/bilylee/SiamFC-Tenso
 
 ## Introduction
 
-This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with Distractors Suppression and Long-Term Strategies](na). 
+This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with Distractors Suppression and Long-Term Strategies](na). If you use this code, please cite the following paper:
+
+```
+@inproceedings{TanISiam19,
+  author    = {Tan, Wei Ren and Lai, Shang-Hong},
+  title     = {i-Siam: Improving Siamese Tracker with Distractors Suppression and Long-Term Strategies},
+  booktitle = {The IEEE International Conference on Computer Vision (ICCV) Workshops},
+  year      = {2019},
+}
+```
 
 ## Prerequisite
 The main requirements can be installed by:
