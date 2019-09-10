@@ -36,7 +36,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
 
-class SiamFC_NL_IU_tracker():
+class iSiam_tracker():
   def __init__(self,):
     checkpoint_path = CHECKPOINT
     logging.info('Evaluating {}...'.format(checkpoint_path))
