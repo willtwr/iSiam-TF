@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 bily     Huazhong University of Science and Technology
+# Copyright © 2019 WR Tan     National Tsing Hua University
 #
 # Distributed under terms of the MIT license.
 
-r"""Support integration with OTB benchmark"""
+r"""Support integration with OxUvA benchmark"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -19,16 +19,16 @@ import cv2
 import tensorflow as tf
 
 # Code root absolute path
-CODE_ROOT = '/home/william/SiamFC-TensorFlow'
+CODE_ROOT = '/home/william/iSiam-TF'
 
 # Checkpoint for evaluation
-CHECKPOINT = '/home/william/SiamFC-TensorFlow/Logs/SiamFC/track_model_checkpoints/SiamFC-2base'
+CHECKPOINT = '/home/william/iSiam-TF/Logs/SiamFC/track_model_checkpoints/iSiam'
 
 sys.path.insert(0, CODE_ROOT)
 
 from utils.misc_utils import auto_select_gpu, load_cfgs
-from inference import oxuva_inference_wrapper_nl as inference_wrapper
-from inference.oxuva_tracker_nl import Tracker
+from inference import inference_wrapper_oxuva as inference_wrapper
+from inference.tracker_oxuva import Tracker
 from utils.infer_utils import Rectangle
 
 # Set GPU
