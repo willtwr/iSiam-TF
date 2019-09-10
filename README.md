@@ -167,7 +167,7 @@ python TLP_benchmark/draw_graph.py
 ```
 
 ## Benchmark OxUvA
-Benchmark for [OxUvA](https://oxuva.github.io/long-term-tracking-benchmark/).Please follow the instructions in [OxUvA github](https://github.com/oxuva/long-term-tracking-benchmark.git) for installation. Note that users need to modify the path accordingly, both command line and in the files.
+Benchmark for [OxUvA](https://oxuva.github.io/long-term-tracking-benchmark/). Please follow the instructions in [OxUvA github](https://github.com/oxuva/long-term-tracking-benchmark.git) for installation. Note that users need to modify the paths accordingly, both in the command line and .py files.
 
 ```bash
 # Assume directory structure:
