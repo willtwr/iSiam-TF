@@ -106,12 +106,8 @@ def create_tracker(tracker_type):
             #tracker = cv2.TrackerMedianFlow_create()
         #elif tracker_type == 'GOTURN':
             #tracker = cv2.TrackerGOTURN_create()
-        #elif tracker_type == 'SiamMT':
-	    #tracker = SiamFC_tracker()
-	#elif tracker_type == 'SiamMTsup':
-	    #tracker = SiamFC_bg_sup_tracker()
-	elif tracker_type == 'SiamNL':
-	    tracker = SiamFC_NL_IU_tracker()
+	elif tracker_type == 'iSiam':
+	    tracker = iSiam_tracker()
     return tracker
 
 
