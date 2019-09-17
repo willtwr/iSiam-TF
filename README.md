@@ -190,19 +190,16 @@ python track.py -v ../../dataset/ ../../predictions/ --data=dev --tracker=iSiam
 
 ## Tracking (Not yet tested)
 ```bash
-# 1. Clone this repository to your disk
-git clone https://github.com/bilylee/SiamFC-TensorFlow.git
+# 1. Change working directory
+cd iSiam-TF
 
-# 2. Change working directory
-cd SiamFC-TensorFlow
-
-# 3. Download pretrained models and one test sequence 
+# 2. Download pretrained models and one test sequence 
 python scripts/download_assets.py
 
-# 4. Run tracking on the test sequence with the converted model
+# 3. Run tracking on the test sequence with the converted model
 python scripts/run_tracking.py
 
-# 5. Show tracking results
+# 4. Show tracking results
 # You can press Enter to toggle between play and pause, and drag the 
 # scrolling bar in the figure. For more details, see utils/videofig.py
 python scripts/show_tracking.py
