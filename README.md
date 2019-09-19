@@ -16,6 +16,8 @@ This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with D
 }
 ```
 
+![qualitative](images/samplet2.eps)
+
 ## Prerequisite
 The main requirements can be installed by:
 ```bash
