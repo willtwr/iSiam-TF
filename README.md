@@ -189,7 +189,7 @@ python track.py -v ../../dataset/ ../../predictions/ --data=dev --tracker=iSiam
 
 # 4. To draw graphs, please follow the instructions in https://github.com/oxuva/long-term-tracking-benchmark.git
 ```
-
+<!---
 ## Tracking (Not yet tested)
 ```bash
 # 1. Change working directory
@@ -206,6 +206,6 @@ python scripts/run_tracking.py
 # scrolling bar in the figure. For more details, see utils/videofig.py
 python scripts/show_tracking.py
 ```
-
+-->
 ## License
 iSiam-TF is released under the MIT License (refer to the LICENSE file for details).
