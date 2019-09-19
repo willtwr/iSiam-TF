@@ -16,7 +16,7 @@ This is a TensorFlow implementation of [i-Siam: Improving Siamese Tracker with D
 }
 ```
 
-![qualitative](/images/samplet2.eps?raw=true "Optional")
+![qualitative](/images/otb100.png?raw=true "Optional")
 
 ## Prerequisite
 The main requirements can be installed by:
