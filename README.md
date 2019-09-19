@@ -191,7 +191,7 @@ python track.py -v ../../dataset/ ../../predictions/ --data=dev --tracker=iSiam
 ```
 
 ## Tracking (Not yet tested)
-#```bash
+```bash
 # 1. Change working directory
 cd iSiam-TF
 
@@ -205,7 +205,7 @@ python scripts/run_tracking.py
 # You can press Enter to toggle between play and pause, and drag the 
 # scrolling bar in the figure. For more details, see utils/videofig.py
 python scripts/show_tracking.py
-#```
+```
 
 ## License
 iSiam-TF is released under the MIT License (refer to the LICENSE file for details).
